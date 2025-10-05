@@ -7,15 +7,15 @@ interface PostsPageProps {
 
 export default async function PostsPage({ params }: PostsPageProps) {
   const { slug } = await params;
-  const postId: string = slug[0];
+  const userId: string = slug[0];
   const response = await fetchPosts({
     searchText: '',
     page: 1,
-    userId: postId,
+    userId: userId,
   });
   return (
     <>
-      <PostsClient initialData={response} userId={postId ?? ''} />
+      <PostsClient initialData={response} userId={userId ?? ''} />
     </>
   );
 }

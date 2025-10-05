@@ -1,20 +1,17 @@
 'use client';
-
-import Modal from '@/components/Modal/Modal';
-import { fetchPostById, fetchUserById } from '@/lib/api';
-import { useParams, useRouter } from 'next/navigation';
-
-import css from './PostPreview.module.css';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useParams, useRouter } from 'next/navigation';
+import { fetchPostById, fetchUserById } from '@/lib/api';
 import { User } from '@/types/user';
-
+import Modal from '@/components/Modal/Modal';
+import css from './PostPreview.module.css';
 export default function PostPreviewClient() {
   const [user, setUser] = useState<User | null>(null);
-  const { id } = useParams();
   const [isOpen, setIsOpen] = useState(true);
   const toggle = () => setIsOpen(!isOpen);
-
+  const router = useRouter();
+  const { id } = useParams();
   const { data, isLoading, isError } = useQuery({
     queryKey: ['post', id],
     queryFn: () => fetchPostById(Number(id)),
@@ -29,7 +26,6 @@ export default function PostPreviewClient() {
     response();
   }, [data]);
 
-  const router = useRouter();
   const handleClose = () => {
     setIsOpen(false);
     router.back();
